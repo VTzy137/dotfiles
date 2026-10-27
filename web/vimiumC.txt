@@ -1,0 +1,15 @@
+# Insert your preferred key mappings here.
+
+map <a-k> previousTab
+map <a-j> nextTab
+map <a-h> goBack
+map <a-l> goForward
+map <a-w> removeTab
+map K moveTabLeft
+map J moveTabRight
+map D scrollFullPageDown
+map U scrollFullPageUp
+map a autoOpen
+map qq removeTab
+map ff LinkHints.activateSelect
+unmap <f8>

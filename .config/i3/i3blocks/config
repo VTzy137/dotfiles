@@ -1,0 +1,166 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+full_text=
+align=center
+color=#93a1a1
+separator=false
+separator_block_width=0
+markup=pango
+
+[workspace]
+color=#FF5733
+# background=#2C3E50
+
+[volume]
+label= 
+instance=Master
+color=#2aa198
+full_text="<span background=\"#021215\" foreground=\"#2aa198\">$(~/.config/i3/i3blocks/battery2/battery2)</span>"
+#instance=PCM
+command=~/.config/i3/i3blocks/volume/volume
+interval=1
+signal=1
+# [separator2]
+# full_text=<span background="#021215" foreground="#002b36"></span>
+# markup=pango
+
+# [focused window]
+# command=.i3/focused_window.sh
+# interval=1
+# markup=pango
+
+# [separator1]
+# full_text=<span background="#002b36" foreground="#021215">_</span>
+# markup=pango
+
+[battery]
+command=~/.config/i3/i3blocks/battery2/battery2
+interval=30
+markup=pango
+color=#2aa198
+full_text="<span background=\"#021215\" foreground=\"#2aa198\">$(~/.config/i3/i3blocks/battery2/battery2)</span>"
+
+
+[separator2]
+full_text=<span background="#021215" foreground="#002b36">"<"</span>
+markup=pango
+
+# [temp]
+# command=.i3/temp.sh
+# interval=5
+# separator=false
+# markup=pango
+
+[separator1]
+full_text=<span background="#002b36" foreground="#021215">"<"</span>
+markup=pango
+
+[cpu]
+command=~/.config/i3/i3blocks/cpu_usage/cpu_usage 
+interval=-2
+min_width=00000100.00%
+color=#2aa198
+# full_text="<span background=\"#021215\" foreground=\"#2aa198\">$(~/.config/i3/i3blocks/battery2/battery2)</span>"
+
+[gpu]
+command=~/.config/i3/i3blocks/gpu-load/gpu-load 
+interval=-2
+min_width=00000100.00%
+color=#2aa198
+# full_text="<span background=\"#021215\" foreground=\"#2aa198\">$(~/.config/i3/i3blocks/battery2/battery2)</span>"
+
+# [separator2]
+# full_text=<span background="#021215" foreground="#002b36"></span>
+# markup=pango
+
+[memory]
+command=~/.config/i3/i3blocks/memory/memory
+separator=false
+interval=10
+markup=pango
+
+[separator1]
+full_text=<span background="#002b36" foreground="#021215">"<"</span>
+markup=pango
+
+# [network]
+# command=.i3/network.sh
+# interval=10
+# full_text=true
+# separator=false
+# markup=pango
+
+[separator2]
+full_text=<span background="#021215" foreground="#002b36"></span>
+markup=pango
+
+[disk]
+command=~/.config/i3/i3blocks/disk/disk
+# full_text=<span background="#002b36" foreground="#021215">"<"</span>
+interval=1
+markup=pango
+color=#2aa198
+
+[separator2]
+full_text=<span background="#021215" foreground="#002b36"></span>
+markup=pango
+# [battery]
+# command=~/.config/i3/i3blocks/battery2/battery2  
+# # command=.i3/battery.sh
+# interval=30
+# markup=pango
+
+# [separator1]
+# full_text=<span background="#002b36" foreground="#021215"></span>
+# markup=pango
+
+[time]
+color=#2aa198
+command=echo "<span background=\"#002b36\" foreground=\"#268bd2\">$(date +%H:%M) </span>"
+interval=5
+markup=pango
+
+
+[date_text]
+full_text= 
+color=#2aa198
+
+[date]
+color=#2aa198
+command=echo "<span background=\"#021215\" foreground=\"#2aa198\">$(date '+%A, %d %b %Y') </span>"
+interval=3600
+separator=false
+
+[separator2]
+full_text=<span background="#021215" foreground="#002b36">"<"</span>
+markup=pango
+
+[time_text]
+full_text=<span background="#002b36" foreground="#268bd2"></span>
+markup=pango
+
+[separator1]
+full_text=<span background="#002b36" foreground="#021215">"<"</span>
+markup=pango
+

@@ -1,0 +1,379 @@
+{
+    "vim.cursorStylePerMode.insert": "line-thin",
+    "vim.cursorStylePerMode.normal": "underline",
+    "vim.cursorStylePerMode.visual": "block-outline",
+    "vim.matchpairs": "(:),{:},[:],<:>",
+    "vim.whichwrap": "h,l",
+    "vim.easymotion": true,
+    "vim.smartRelativeLine": true,
+    "vim.surround": true,
+    "vim.camelCaseMotion.enable": true,
+    "vim.sneak": true,
+    "vim.sneakReplacesF": true,
+    "vim.useSystemClipboard": true,
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "w"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                "0"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "after": [
+                ">",
+                "g",
+                "v"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "after": [
+                "<",
+                "g",
+                "v"
+            ]
+        },
+        {
+            "before": [
+                "J"
+            ],
+            "after": [
+                "3",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "after": [
+                "3",
+                "k"
+            ]
+        },
+        {
+            "before": [
+                "d"
+            ],
+            "after": [
+                "\"",
+                "a",
+                "d"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "i",
+                "i"
+            ],
+            "after": [
+                "esc"
+            ]
+        }
+    ],
+    "vim.operatorPendingModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "w"
+            ],
+            "after": [
+                "$"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "q",
+                "q"
+            ],
+            "after": [
+                ":",
+                "q",
+                "!",
+                "enter"
+            ]
+        },
+        {
+            "before": [
+                "d"
+            ],
+            "after": [
+                "\"",
+                "a",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "J"
+            ],
+            "after": [
+                "3",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "after": [
+                "3",
+                "k"
+            ]
+        },
+        {
+            "before": [
+                " "
+            ],
+            "after": [
+                "a",
+                " ",
+                "esc"
+            ]
+        },
+        {
+            "before": [
+                "f",
+                "f"
+            ],
+            "after": [
+                "<leader>",
+                "<leader>",
+                "<leader>",
+                "b",
+                "d",
+                "w"
+            ]
+        },
+        {
+            "before": [
+                "t"
+            ],
+            "after": [
+                "<C-r>"
+            ]
+        },
+        {
+            "before": [
+                "x"
+            ],
+            "after": [
+                "\"",
+                "a",
+                "x"
+            ]
+        },
+        {
+            "before": [
+                "d"
+            ],
+            "after": [
+                "\"",
+                "a",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<tab>"
+            ],
+            "after": [
+                ">",
+                ">"
+            ]
+        },
+        {
+            "before": [
+                "enter"
+            ],
+            "after": [
+                "i",
+                "enter",
+                "esc"
+            ]
+        },
+        {
+            "before": [
+                "w"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            "before": [
+                "0"
+            ],
+            "after": [
+                "^"
+            ]
+        }
+    ],
+    "workbench.colorTheme": "Noctis Obscuro",
+    "editor.cursorBlinking": "solid",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveWhenNoErrors": true,
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.csv": "gc-excelviewer-csv-editor",
+        "*.md": "vscode.markdown.preview.editor"
+    },
+    "[html]": {
+        "editor.comments.insertSpace": true,
+        "editor.defaultFormatter": "vscode.html-language-features",
+        "editor.tabSize": 2
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "vscode.css-language-features",
+        "editor.tabSize": 2
+    },
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.formatOnType": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "explorer.confirmDelete": false,
+    "editor.wordWrap": "on",
+    "editor.glyphMargin": false,
+    "editor.fontFamily": "'Fira Code', 'monospace', monospace",
+    "editor.fontWeight": "440",
+    "editor.fontLigatures": true,
+    "editor.minimap.enabled": false,
+    "window.density.editorTabHeight": "compact",
+    "editor.showFoldingControls": "never",
+    "jupyter.askForKernelRestart": false,
+    "notebook.editorOptionsCustomizations": {
+        "editor.tabSize": 2,
+        "editor.indentSize": 2,
+        "editor.insertSpaces": true
+    },
+    "code-runner.executorMap": {
+        "dart": "dart --enable-asserts",
+        "csharp": "cd $dir && dotnet run $fileName"
+    },
+    "code-runner.runInTerminal": true,
+    "editor.tabSize": 2,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.hidesExplorerArrows": true,
+    "zenMode.restore": true,
+    "zenMode.centerLayout": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.hideActivityBar": false,
+    "editor.renderWhitespace": "none",
+    "window.menuBarVisibility": "classic",
+    "window.customTitleBarVisibility": "windowed",
+    "window.zoomLevel": -1,
+    "editor.fontSize": 13,
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+    "debug.console.fontSize": 12,
+    "workbench.activityBar.location": "top",
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "mssql.connectionGroups": [
+        {
+            "name": "ROOT",
+            "id": "ROOT"
+        }
+    ],
+    "debug.inlineValues": false,
+    "editor.semanticTokenColorCustomizations": {
+        "rules": {
+            "interface": {
+                "foreground": "#b8ce82"
+            },
+            "namespace": "#cccccc",
+            "enum": "#b8ce82",
+            "struct": {
+                "foreground": "#86C691"
+            },
+            "inactive": {
+                "foreground": "#6A6A6A"
+            }
+        }
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "entity.name.type.interface.cs",
+                "settings": {
+                    "foreground": "#b8ce82"
+                }
+            },
+            {
+                "scope": "entity.name.type.enum.cs",
+                "settings": {
+                    "foreground": "#b8ce82"
+                }
+            },
+            {
+                "scope": "entity.name.type.struct.cs",
+                "settings": {
+                    "foreground": "#86C691"
+                }
+            },
+            {
+                "scope": "variable.other.enummember.cs",
+                "settings": {
+                    "foreground": "#4FC1FF"
+                }
+            }
+        ]
+    },
+    "chat.viewSessions.orientation": "stacked",
+    "antigravity.skipPermissions": true,
+    "aga.autoAccept": false,
+    "workbench.activityBar.compact": true,
+    "window.density.layout": "compact",
+    "markdown.preview.lineHeight": 1.5,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "chat.tools.terminal.autoApprove": {
+        "npm run build": true
+    },
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    }
+}
+    

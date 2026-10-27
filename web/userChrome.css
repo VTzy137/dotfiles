@@ -1,0 +1,45 @@
+@keyframes navbar {
+    0%   {height: 40px; max-height: 40px; min-height: 40px;}
+    93%  {height: 40px; max-height: 40px; min-height: 40px;}
+    100% {height: 0; max-height: 0; min-height: 0;}
+}
+ 
+@keyframes navbarHover {
+    100% {height: 40px; max-height: 40px; min-height: 40px;}
+}
+
+@keyframes personalToolbar {
+    0%   {height: 30px; max-height: 30px; min-height: 30px;}
+    93%  {height: 30px; max-height: 30px; min-height: 30px;}
+    100% {height: 0; max-height: 0; min-height: 0;}
+}
+ 
+@keyframes personalToolbarHover {
+    100% {height: 30px; max-height: 30px; min-height: 30px;}
+}
+ 
+@keyframes toolbarIcon {
+    0%   {opacity: 100; display: -moz-box;}
+    93%  {opacity: 100; display: -moz-box;}
+    100% {opacity: 0; display: none;}
+}
+ 
+@keyframes toolbarIconHover {
+    100% {opacity: 100; display: -moz-box;}
+}
+
+:root:not([customizing]) #nav-bar {animation: navbar 7s forwards !important;}
+:root:not([customizing]) #nav-bar toolbarbutton .toolbarbutton-icon {animation: toolbarIcon 7s forwards !important;}
+:root:not([customizing]) #urlbar {animation: toolbarIcon 7s forwards !important;}
+:root:not([customizing]) #PersonalToolbar {animation:  personalToolbar 7s forwards !important;}
+
+:root:not([customizing]) #navigator-toolbox:hover #nav-bar {animation: navbarHover 3ms forwards !important;} 
+:root:not([customizing]) #navigator-toolbox:hover #nav-bar toolbarbutton .toolbarbutton-icon {animation: toolbarIconHover 3ms forwards !important;}
+:root:not([customizing]) #navigator-toolbox:hover #urlbar {animation: toolbarIconHover 3ms forwards !important;}
+:root:not([customizing]) #navigator-toolbox:hover #PersonalToolbar {animation: personalToolbarHover 3ms forwards !important;}
+
+:root:not([customizing]) #navigator-toolbox:focus-within #nav-bar {animation: navbarHover 3ms forwards !important;} 
+:root:not([customizing]) #navigator-toolbox:focus-within #nav-bar toolbarbutton .toolbarbutton-icon {animation: toolbarIconHover 3ms forwards !important;}
+:root:not([customizing]) #navigator-toolbox:focus-within #urlbar {animation: toolbarIconHover 3ms forwards !important;}
+
+

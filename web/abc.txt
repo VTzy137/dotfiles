@@ -1,0 +1,4 @@
+ about:config
+ toolkit.legacyUserProfileCustomizations.stylesheets 
+
+ %APPDATA%\Mozilla\Firefox\Profiles\

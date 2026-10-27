@@ -1,0 +1,24 @@
+# Local configurations and overrides
+*.local
+*.local.*
+!*.example
+!.gitconfig.local.example
+.env
+.env.*
+
+# SSH and security keys
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+
+# Neovim / Packer compiled cache
+.config/nvim/plugin/packer_compiled.lua
+
+# System & OS artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.log
