@@ -113,7 +113,7 @@ bindkey -v
 #   fi
 # }
 
-if ! pgrep -x "fcitx5" > /dev/null; then
+if command -v fcitx5 > /dev/null && ! pgrep -x "fcitx5" > /dev/null; then
     (fcitx5 &>/dev/null &)
 fi
 
@@ -151,7 +151,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export CC=/usr/bin/clang
+[ -x /usr/bin/clang ] && export CC=/usr/bin/clang
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 alias q='exit'
@@ -164,5 +164,5 @@ elif [ -d "$HOME/flutter/bin" ]; then
 fi
 
 alias zshrc='nvim ~/.zshrc'
-source /opt/ros/lyrical/setup.zsh
+[ -f /opt/ros/lyrical/setup.zsh ] && source /opt/ros/lyrical/setup.zsh
 

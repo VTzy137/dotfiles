@@ -27,12 +27,15 @@ Enhance code speed and quality
 
 
 
-## Windows
+## vimnav
 
 - vimnav: vim-like navigation for any window ([AutoHotkey v2](https://www.autohotkey.com/)), see `windows/README.md`
-  - Normal mode by default; click into a window (or `i`/`Esc`) to type, `F1` toggles
-  - `h`/`j`/`k`/`l` move a point (`H`/`J`/`K`/`L` faster), `d`/`u` scroll there, `o` clicks it
+  - Insert mode by default, `F1` toggles normal mode per window; `i`/`Esc` or clicking goes back to typing
+  - `h`/`j`/`k`/`l` move a point (`H`/`J`/`K`/`L` faster), `d`/`u` scroll there, `o` clicks it (stays in normal mode), `O` right clicks
   - Install: `powershell -ExecutionPolicy Bypass -File windows\installVimNav.ps1`
+- vimnav on Linux (Wayland/COSMIC or X11, Python + evdev), see `linux/README.md`
+  - Same keys; one mode for all windows and the point is the mouse itself
+  - Install: `bash linux/installVimNav.sh`
 
 ## Addition
 

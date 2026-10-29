@@ -1,16 +1,17 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-; Vim-like navigation for any window. Every window starts in NORMAL; only the
-; keys below are taken there, every other key and app shortcut still works.
-;   i             -> click the window centre, then INSERT
-;   Esc / F1      -> INSERT for this window (typing works as usual)
-;   F1            -> back to NORMAL
+; Vim-like navigation for any window. Every window starts in INSERT (typing works
+; as usual); in NORMAL only the keys below are taken, every other key and app
+; shortcut still works.
+;   F1            -> NORMAL for this window
+;   i / Esc / F1  -> back to INSERT
 ;   h / l         -> move the point left / right 1% (shown as a dot)
 ;   j / k         -> move the point down / up 1%
 ;   H / J / K / L -> same, 10% at a time
 ;   d / u         -> scroll down / up at the point
-;   o             -> click the point, then INSERT
+;   o             -> click the point, staying in NORMAL
+;   O             -> right click the point
 ;   Ctrl+F1       -> turn vimnav off / on
 ; Clicking into a window puts it in INSERT. Each window keeps its own mode,
 ; so switching away and back restores it.
@@ -26,7 +27,7 @@ PointStep := 0.01
 BigPointStep := 0.1
 
 A_IconTip := "vimnav"
-insertWins := Map()  ; windows in INSERT; all others are NORMAL
+normalWins := Map()  ; windows in NORMAL; all others are INSERT
 points := Map()      ; window -> [fx, fy] point as fractions of its size, centre if unset
 ; Dot marking the point; click-through so it never takes the click or scroll itself
 dot := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20 -DPIScale")
@@ -47,7 +48,7 @@ IsExcluded() {
     return false
 }
 
-IsNormal() => !A_IsSuspended && !insertWins.Has(WinExist("A")) && !IsExcluded()
+IsNormal() => !A_IsSuspended && normalWins.Has(WinExist("A")) && !IsExcluded()
 
 ; Keep the indicator in sync with the focused window's mode.
 Tick() {
@@ -58,7 +59,7 @@ Tick() {
         return
     shownHwnd := show
     ; Forget windows that have been closed
-    for m in [insertWins, points]
+    for m in [normalWins, points]
         for h in [m*]
             if !WinExist(h)
                 m.Delete(h)
@@ -71,24 +72,14 @@ Tick() {
 }
 
 EnterInsert() {
-    if hwnd := WinExist("A")
-        insertWins[hwnd] := true
+    if normalWins.Has(hwnd := WinExist("A"))
+        normalWins.Delete(hwnd)
     Tick()
 }
 
-; Click the window centre (usually the conversation / main content) to focus it, then type.
-ClickCentreInsert() {
-    CoordMode("Mouse", "Screen")
-    WinGetPos(&x, &y, &w, &h, "A")
-    MouseGetPos(&mx, &my)
-    Click(x + w // 2, y + h // 2)
-    MouseMove(mx, my, 0)
-    EnterInsert()
-}
-
 EnterNormal() {
-    if insertWins.Has(hwnd := WinExist("A"))
-        insertWins.Delete(hwnd)
+    if hwnd := WinExist("A")
+        normalWins[hwnd] := true
     Tick()
 }
 
@@ -113,8 +104,8 @@ MovePoint(dx, dy, step := PointStep) {
 
 HideDot() => dot.Hide()
 
-; Click the point, then type there; the cursor goes back where it was.
-ClickPoint() {
+; Click the point with button, staying in NORMAL; the cursor goes back where it was.
+ClickPoint(button := "Left") {
     CoordMode("Mouse", "Screen")
     HideDot()
     GetPoint(&px, &py)
@@ -122,10 +113,9 @@ ClickPoint() {
     ; Hover first: some apps (Electron, web) ignore a click with no move before it
     MouseMove(px, py, 0)
     Sleep(30)
-    Click()
+    Click(button)
     Sleep(30)
     MouseMove(mx, my, 0)
-    EnterInsert()
 }
 
 ; Scroll at the point (window centre by default) so that pane moves,
@@ -147,7 +137,7 @@ F1::EnterNormal()
 
 #HotIf IsNormal()
 F1::EnterInsert()
-i::ClickCentreInsert()
+i::EnterInsert()
 Esc::EnterInsert()
 h::MovePoint(-1, 0)
 l::MovePoint(1, 0)
@@ -160,6 +150,7 @@ k::MovePoint(0, -1)
 d::Scroll(PageNotches)
 u::Scroll(-PageNotches)
 o::ClickPoint()
++o::ClickPoint("Right")
 #HotIf
 
 #SuspendExempt

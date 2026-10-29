@@ -16,7 +16,8 @@ sudo apt update
 sudo apt install -y vim neovim git
 
 # Copy dotfiles
-cp -rf "$SOURCE_DIR/.config/nvim" ~/.config/nvim
+mkdir -p ~/.config
+cp -rf "$SOURCE_DIR/.config/nvim" ~/.config/
 cp "$SOURCE_DIR/.vimrc" ~/.vimrc
 cp "$SOURCE_DIR/.zshrc" ~/.zshrc
 cp "$SOURCE_DIR/.bashrc" ~/.bashrc
