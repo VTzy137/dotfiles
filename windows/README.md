@@ -8,10 +8,10 @@ Run from the repo root in PowerShell:
 powershell -ExecutionPolicy Bypass -File windows\installVimNav.ps1
 ```
 
-It installs AutoHotkey v2 (winget, asks for UAC) and Hunt-and-Peck (click hints for `f`), adds `windows/vimnav.ahk` and Hunt-and-Peck to Startup and starts them.
+It installs AutoHotkey v2 (winget, asks for UAC), adds `windows/vimnav.ahk` to Startup and starts it.
 Re-run any time; after editing `vimnav.ahk`, run it again (or Reload from its tray icon).
 
 Every window starts in normal mode; clicking into it (or `i`/`Esc`/`F1`) switches to typing, `F1` goes back. Each window remembers its own mode.
-Keys: `j`/`k` scroll, `d`/`u` page, `f` click hints, `F` grid hints (for apps like Zalo where `f` finds nothing), `F3` grid hints from any mode, `Ctrl+F1` turns it all off/on.
+Keys: `h`/`j`/`k`/`l` move a point (shown as a dot) by 1% of the window and `H`/`J`/`K`/`L` by 10%, `d`/`u` scroll at that point, `o` clicks it, `Ctrl+F1` turns it all off/on.
 Only these keys are taken in normal mode; other shortcuts keep working.
 Skip apps by adding them to `ExcludeExe` at the top of `vimnav.ahk`.
