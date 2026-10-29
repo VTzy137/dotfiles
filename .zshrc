@@ -128,7 +128,6 @@ bindkey '^N' _history-complete-newer   # Ctrl+N for newer history
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-# export SCRIPT_DIR="$HOME/.config/i3blocks/i3blocks/scripts"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

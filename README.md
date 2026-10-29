@@ -3,12 +3,6 @@
 Myself config for code editor, terminal, etc.
 Enhance code speed and quality
 
-## Linux
-
-- [i3blocks](https://github.com/vivien/i3blocks)
-- [i3](https://i3wm.org/)
-- [i3status](https://github.com/i3/i3status)
-
 ## Editor
 
 - [VSCode](https://code.visualstudio.com/)
@@ -51,6 +45,4 @@ Enhance code speed and quality
 - nautilus
 - neofetch 
 - polybar
-- rofi
 - thunar
-- wlogout
