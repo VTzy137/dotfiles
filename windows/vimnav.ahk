@@ -19,8 +19,10 @@
 ; Apps to skip, e.g. "Code.exe", "WindowsTerminal.exe", "msedge.exe"
 ExcludeExe := []
 ; Shell and input windows where typing must never be taken
-SystemExe := ["explorer.exe", "SearchHost.exe", "StartMenuExperienceHost.exe",
+SystemExe := ["SearchHost.exe", "StartMenuExperienceHost.exe",
     "ShellExperienceHost.exe", "TextInputHost.exe", "LockApp.exe"]
+; Taskbars and desktop, by window class: explorer.exe also runs File Explorer, which vimnav works in
+SystemClass := ["Shell_TrayWnd", "Shell_SecondaryTrayWnd", "Progman", "WorkerW"]
 PageNotches := 8
 ; How far h/j/k/l and H/J/K/L move the point, as a fraction of the window size
 PointStep := 0.01
@@ -64,13 +66,16 @@ shownHwnd := 0       ; window the NORMAL indicator is shown for
 SetTimer(Tick, 200)
 
 IsExcluded() {
-    try exe := WinGetProcessName("A")
+    try exe := WinGetProcessName("A"), cls := WinGetClass("A")
     catch
         return true
     for list in [ExcludeExe, SystemExe]
         for e in list
             if exe = e
                 return true
+    for c in SystemClass
+        if cls = c
+            return true
     return false
 }
 
