@@ -23,18 +23,23 @@ SystemExe := ["SearchHost.exe", "StartMenuExperienceHost.exe",
     "ShellExperienceHost.exe", "TextInputHost.exe", "LockApp.exe"]
 ; Taskbars and desktop, by window class: explorer.exe also runs File Explorer, which vimnav works in
 SystemClass := ["Shell_TrayWnd", "Shell_SecondaryTrayWnd", "Progman", "WorkerW"]
-PageNotches := 8
+; How far d / u scroll, in wheel units: 120 is one mouse wheel notch
+ScrollAmount := 160
+; Holding a key repeats it every RepeatMs once held past RepeatDelay (ms), faster
+; than the keyboard's own repeat. About 16 is the fastest; Windows can't sleep shorter.
+RepeatDelay := 100
+RepeatMs := 16
 ; How far h/j/k/l and H/J/K/L move the point, as a fraction of the window size
 PointStep := 0.01
-BigPointStep := 0.1
+BigPointStep := 0.07
 ; Marker shown at the point: a cursor file (.ani / .cur, animated ones play),
 ; or if that is "" or missing, any text or symbol (e.g. "●", "+", "✛", "◎", "▲")
 ; with its colour (hex RGB) and box size in pixels; and how long it stays (ms)
 DotCursor := A_ScriptDir "\..\dororo\dororo-alt.ani"
-DotCursorScale := 0.5  ; size of DotCursor relative to the normal cursor size
+DotCursorScale := 0.45  ; size of DotCursor relative to the normal cursor size
 DotText := "●"
 DotColor := "E53935"
-DotSize := 20
+DotSize := 15
 DotMs := 700
 
 A_IconTip := "vimnav"
@@ -151,13 +156,33 @@ ClickPoint(button := "Left") {
 
 ; Scroll at the point (window centre by default) so that pane moves,
 ; then put the cursor back where it was.
-Scroll(notches) {
+Scroll(amount) {
     CoordMode("Mouse", "Screen")
     GetPoint(&px, &py)
     MouseGetPos(&mx, &my)
     MouseMove(px, py, 0)
-    Send("{" (notches > 0 ? "WheelDown" : "WheelUp") " " Abs(notches) "}")
+    ; MOUSEEVENTF_WHEEL; positive is up, and amounts below a notch still scroll in most apps
+    DllCall("mouse_event", "UInt", 0x800, "Int", 0, "Int", 0, "Int", -amount, "Ptr", 0)
     MouseMove(mx, my, 0)
+}
+
+; Run fn now, then again every RepeatMs while the hotkey's key stays held.
+; The keyboard's own repeats are dropped while this runs (one thread per hotkey).
+; The hook is what lets GetKeyState see a held key that the hotkey blocks;
+; without it the key reads as up and only the keyboard's repeats scroll.
+InstallKeybdHook()
+Hold(fn) {
+    key := LTrim(A_ThisHotkey, "~*$+^!#")
+    fn()
+    start := A_TickCount
+    while GetKeyState(key, "P") {
+        if A_TickCount - start < RepeatDelay {
+            Sleep(10)
+            continue
+        }
+        fn()
+        Sleep(RepeatMs)
+    }
 }
 
 ; A real click focuses whatever is under it, so treat it as "I want to type here".
@@ -170,16 +195,16 @@ F1::EnterNormal()
 F1::EnterInsert()
 i::EnterInsert()
 Esc::EnterInsert()
-h::MovePoint(-1, 0)
-l::MovePoint(1, 0)
-j::MovePoint(0, 1)
-k::MovePoint(0, -1)
-+h::MovePoint(-1, 0, BigPointStep)
-+l::MovePoint(1, 0, BigPointStep)
-+j::MovePoint(0, 1, BigPointStep)
-+k::MovePoint(0, -1, BigPointStep)
-d::Scroll(PageNotches)
-u::Scroll(-PageNotches)
+h::Hold(() => MovePoint(-1, 0))
+l::Hold(() => MovePoint(1, 0))
+j::Hold(() => MovePoint(0, 1))
+k::Hold(() => MovePoint(0, -1))
++h::Hold(() => MovePoint(-1, 0, BigPointStep))
++l::Hold(() => MovePoint(1, 0, BigPointStep))
++j::Hold(() => MovePoint(0, 1, BigPointStep))
++k::Hold(() => MovePoint(0, -1, BigPointStep))
+d::Hold(() => Scroll(ScrollAmount))
+u::Hold(() => Scroll(-ScrollAmount))
 o::ClickPoint()
 +o::ClickPoint("Right")
 #HotIf
