@@ -27,6 +27,13 @@ Enhance code speed and quality
 
 
 
+## Windows
+
+- vimnav: vim-like navigation for any window ([AutoHotkey v2](https://www.autohotkey.com/) + [Hunt-and-Peck](https://github.com/zsims/hunt-and-peck)), see `windows/README.md`
+  - Normal mode by default; click into a window (or `i`/`Esc`) to type, `F1` toggles
+  - `j`/`k` scroll, `d`/`u` page, `f`/`F`/`F3` click hints
+  - Install: `powershell -ExecutionPolicy Bypass -File windows\installVimNav.ps1`
+
 ## Addition
 
 - gedit
