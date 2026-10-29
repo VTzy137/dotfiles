@@ -37,6 +37,12 @@ Enhance code speed and quality
   - Same keys; one mode for all windows and the point is the mouse itself
   - Install: `bash linux/installVimNav.sh`
 
+## Cursors
+
+- Dororo animated cursor set in `dororo/`
+  - Windows: `powershell -ExecutionPolicy Bypass -File windows\installCursor.ps1`
+  - Linux: `bash linux/installCursor.sh`
+
 ## Addition
 
 - gedit

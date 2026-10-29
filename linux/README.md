@@ -25,3 +25,13 @@ Differences from Windows, since Wayland doesn't let apps see other windows:
 - Touchpad taps don't switch to typing, only real clicks do.
 
 Being in the `input` group lets your user read every keyboard, which is what vimnav needs; keep that in mind on shared machines.
+
+## Dororo cursors
+
+Use the cursor set in `dororo/` (public domain, see `dororo/readme.txt`) as the mouse cursor:
+
+```bash
+bash linux/installCursor.sh
+```
+
+It converts the `.ani` files with [win2xcur](https://github.com/quantum5/win2xcur) into an Xcursor theme in `~/.icons/dororo`, makes it the default and needs a fresh login. Animated cursors stay animated.

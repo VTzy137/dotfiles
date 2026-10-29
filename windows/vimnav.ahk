@@ -6,7 +6,7 @@
 ; shortcut still works.
 ;   F1            -> NORMAL for this window
 ;   i / Esc / F1  -> back to INSERT
-;   h / l         -> move the point left / right 1% (shown as a dot)
+;   h / l         -> move the point left / right 1% (shown with DotCursor)
 ;   j / k         -> move the point down / up 1%
 ;   H / J / K / L -> same, 10% at a time
 ;   d / u         -> scroll down / up at the point
@@ -25,6 +25,15 @@ PageNotches := 8
 ; How far h/j/k/l and H/J/K/L move the point, as a fraction of the window size
 PointStep := 0.01
 BigPointStep := 0.1
+; Marker shown at the point: a cursor file (.ani / .cur, animated ones play),
+; or if that is "" or missing, any text or symbol (e.g. "●", "+", "✛", "◎", "▲")
+; with its colour (hex RGB) and box size in pixels; and how long it stays (ms)
+DotCursor := A_ScriptDir "\..\dororo\dororo-alt.ani"
+DotCursorScale := 0.5  ; size of DotCursor relative to the normal cursor size
+DotText := "●"
+DotColor := "E53935"
+DotSize := 20
+DotMs := 700
 
 A_IconTip := "vimnav"
 normalWins := Map()  ; windows in NORMAL; all others are INSERT
@@ -32,8 +41,25 @@ points := Map()      ; window -> [fx, fy] point as fractions of its size, centre
 ; Dot marking the point; click-through so it never takes the click or scroll itself
 dot := Gui("+AlwaysOnTop -Caption +ToolWindow +E0x20 -DPIScale")
 dot.BackColor := "010101"
-dot.SetFont("s14 bold", "Segoe UI")
-dot.AddText("x0 y0 w20 h20 Center cE53935 Background010101", "●")
+cursorSize := Round(SysGet(13) * DotCursorScale)  ; SM_CXCURSOR, the normal cursor size
+; IMAGE_CURSOR, LR_LOADFROMFILE
+if FileExist(DotCursor) && hCursor := DllCall("LoadImageW", "Ptr", 0, "Str", DotCursor, "UInt", 2
+        , "Int", cursorSize, "Int", cursorSize, "UInt", 0x10, "Ptr") {
+    DotSize := cursorSize
+    ; An icon-style static control (SS_ICON) plays an animated cursor by itself
+    dotPic := dot.AddText("x0 y0 w" DotSize " h" DotSize " +0x3")
+    SendMessage(0x172, 2, hCursor, dotPic)  ; STM_SETIMAGE, IMAGE_CURSOR
+    ; Put the cursor's hotspot, not its corner, on the point
+    info := Buffer(8 + 3 * A_PtrSize, 0)  ; ICONINFO
+    DllCall("GetIconInfo", "Ptr", hCursor, "Ptr", info)
+    dotHotX := NumGet(info, 4, "UInt"), dotHotY := NumGet(info, 8, "UInt")
+    Loop 2
+        DllCall("DeleteObject", "Ptr", NumGet(info, 8 + A_Index * A_PtrSize, "Ptr"))
+} else {
+    dot.SetFont("s" Round(DotSize * 0.7) " bold", "Segoe UI Symbol")
+    dot.AddText("x0 y0 w" DotSize " h" DotSize " Center +0x200 c" DotColor " Background010101", DotText)
+    dotHotX := dotHotY := DotSize // 2
+}
 shownHwnd := 0       ; window the NORMAL indicator is shown for
 SetTimer(Tick, 200)
 
@@ -97,9 +123,9 @@ MovePoint(dx, dy, step := PointStep) {
     Clamp(f) => Max(0.01, Min(0.99, Round(f, 2)))
     points[hwnd] := [Clamp(p[1] + dx * step), Clamp(p[2] + dy * step)]
     GetPoint(&px, &py)
-    dot.Show("x" px - 10 " y" py - 10 " w20 h20 NoActivate")
+    dot.Show("x" px - dotHotX " y" py - dotHotY " w" DotSize " h" DotSize " NoActivate")
     WinSetTransColor("010101", dot)
-    SetTimer(HideDot, -700)
+    SetTimer(HideDot, -DotMs)
 }
 
 HideDot() => dot.Hide()
