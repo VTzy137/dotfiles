@@ -6,7 +6,7 @@
 ; shortcut still works.
 ;   F1            -> NORMAL for this window
 ;   i / Esc / F1  -> back to INSERT
-;   h / l         -> move the point left / right 1% (shown with DotCursor)
+;   h / l         -> move the point left / right 1% (DotCursor marks it while in NORMAL)
 ;   j / k         -> move the point down / up 1%
 ;   H / J / K / L -> same, 10% at a time
 ;   d / u         -> scroll down / up at the point
@@ -34,13 +34,12 @@ PointStep := 0.01
 BigPointStep := 0.07
 ; Marker shown at the point: a cursor file (.ani / .cur, animated ones play),
 ; or if that is "" or missing, any text or symbol (e.g. "●", "+", "✛", "◎", "▲")
-; with its colour (hex RGB) and box size in pixels; and how long it stays (ms)
+; with its colour (hex RGB) and box size in pixels. It stays shown while in NORMAL.
 DotCursor := A_ScriptDir "\..\dororo\dororo-alt.ani"
 DotCursorScale := 0.45  ; size of DotCursor relative to the normal cursor size
 DotText := "●"
 DotColor := "E53935"
 DotSize := 15
-DotMs := 700
 
 A_IconTip := "vimnav"
 normalWins := Map()  ; windows in NORMAL; all others are INSERT
@@ -91,6 +90,8 @@ Tick() {
     global shownHwnd
     hwnd := WinExist("A")
     show := IsNormal() ? hwnd : 0
+    if show
+        ShowDot()  ; follow the window if it moved
     if show = shownHwnd
         return
     shownHwnd := show
@@ -103,8 +104,10 @@ Tick() {
         CoordMode("ToolTip", "Screen")
         WinGetPos(&x, &y, &w, &h, show)
         ToolTip("-- NORMAL --", x + 12, y + h - 40)
-    } else
+    } else {
         ToolTip()
+        HideDot()
+    }
 }
 
 EnterInsert() {
@@ -126,16 +129,22 @@ GetPoint(&px, &py) {
     px := x + Round(w * p[1]), py := y + Round(h * p[2])
 }
 
-; Move the point by dx / dy steps of size step, kept inside the window, and flash a dot there.
+; Move the point by dx / dy steps of size step, kept inside the window.
 MovePoint(dx, dy, step := PointStep) {
     hwnd := WinExist("A")
     p := points.Get(hwnd, [0.5, 0.5])
     Clamp(f) => Max(0.01, Min(0.99, Round(f, 2)))
     points[hwnd] := [Clamp(p[1] + dx * step), Clamp(p[2] + dy * step)]
+    ShowDot()
+}
+
+; Show the marker at the active window's point (it is click-through).
+ShowDot() {
+    static transSet := false
     GetPoint(&px, &py)
     dot.Show("x" px - dotHotX " y" py - dotHotY " w" DotSize " h" DotSize " NoActivate")
-    WinSetTransColor("010101", dot)
-    SetTimer(HideDot, -DotMs)
+    if !transSet
+        WinSetTransColor("010101", dot), transSet := true
 }
 
 HideDot() => dot.Hide()
@@ -143,7 +152,6 @@ HideDot() => dot.Hide()
 ; Click the point with button, staying in NORMAL; the cursor goes back where it was.
 ClickPoint(button := "Left") {
     CoordMode("Mouse", "Screen")
-    HideDot()
     GetPoint(&px, &py)
     MouseGetPos(&mx, &my)
     ; Hover first: some apps (Electron, web) ignore a click with no move before it
