@@ -1,4 +1,10 @@
-# Copy this file to ~/.gitconfig.local to set your personal git identity
+# Copy this file to ~/.gitconfig.local to set machine-specific config
 [user]
   name = Your Name
   email = your.email@example.com
+
+# Credential helper differs per OS:
+#   Windows: Git for Windows already sets `manager` system-wide, nothing needed
+#   Linux:   uncomment below (or use libsecret / git-credential-manager)
+# [credential]
+#   helper = cache --timeout=3600

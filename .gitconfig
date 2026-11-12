@@ -1,6 +1,3 @@
-[include]
-  path = ~/.gitconfig.local
-
 [alias]
   a = add
   aa = add --all
@@ -9,6 +6,7 @@
   b = branch
   c = commit -m
   co = checkout
+  sw = switch
   cp = cherry-pick
   d = diff
   dc = diff --cached
@@ -16,35 +14,66 @@
   l = log --format=\"%C(auto)%h%C(reset) %s %C(yellow)- %an, %ad%C(reset) %C(dim green)%G?%C(reset)\" --date=relative
   m = merge
   p = push
+  pf = push --force-with-lease
   po = push origin
-  pom = push origin master
+  pom = push origin main
   pod = push origin dev
   rb = rebase
   rl = reflog
   s = status -sb -unormal
   sh = stash
+  undo = reset --soft HEAD~1
   v = log --graph --all --format=\"%C(auto)%h%C(reset) %C(auto)%d%C(reset) %s %C(yellow)- %an, %ad%C(reset) %C(dim green)%G?%C(reset)\" --date=relative
   vv = log --graph --all --format=\"%C(auto)%h%C(reset) %C(auto)%d%C(reset) %s %C(dim cyan)- %an, %ad%C(reset)%n         %C(dim)author  :%C(reset) %C(yellow)%aN <%aE>.%C(reset) %C(cyan)%aD%C(reset)%n         %C(dim)commiter:%C(reset) %C(yellow)%cN <%cE>.%C(reset) %C(cyan)%cD%C(reset)%n         %C(dim)signing :%C(reset) %C(bold green)%G?.%C(reset) %C(yellow)%GS%C(reset) %C(dim cyan)%GK%C(reset)\" --date=relative
+
+[init]
+  defaultBranch = main
 
 [core]
   editor = nvim
   autocrlf = input
-  compression = 0
   pager = delta
 
-[delta]
-  line-numbers = true
+[interactive]
+  diffFilter = delta --color-only
 
-[credential]
-  helper = cache --timeout=3600
+[delta]
+  navigate = true
+  line-numbers = true
 
 [diff]
   tool = vimdiff
+  algorithm = histogram
+  colorMoved = default
+
+[merge]
+  conflictStyle = zdiff3
+
+[rerere]
+  enabled = true
+
+[fetch]
+  prune = true
+
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+  autoSquash = true
+
+[push]
+  default = current
+  autoSetupRemote = true
+
+[branch]
+  sort = -committerdate
 
 [filter "lfs"]
   clean = git-lfs clean %f
   smudge = git-lfs smudge %f
   required = true
 
-[push]
-  default = current
+# Machine-specific config (identity, credential helper, ssh) goes last so it wins
+[include]
+  path = ~/.gitconfig.local
