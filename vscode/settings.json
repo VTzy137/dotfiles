@@ -234,7 +234,8 @@
     "workbench.editorAssociations": {
         "*.copilotmd": "vscode.markdown.preview.editor",
         "*.csv": "gc-excelviewer-csv-editor",
-        "*.md": "vscode.markdown.preview.editor"
+        "*.html": "workbench.editor.browser",
+        "*.{jpg,jpe,jpeg,png,bmp,gif,ico,webp,avif,svg}": "cweijan.imageViewer"
     },
     "[html]": {
         "editor.comments.insertSpace": true,
@@ -253,6 +254,14 @@
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
+    "vs-kubernetes": {
+        "vscode-kubernetes.helm-path-linux": "/home/vtzy/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
+        "vscode-kubernetes.minikube-path-linux": "/home/vtzy137/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube",
+        "vscode-kubernetes.kubectl-path-linux": "/home/vtzy137/.local/state/vs-kubernetes/tools/kubectl/kubectl",
+        "vscode-kubernetes.helm-path-windows": "C:\\Users\\ADMIN\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe",
+        "vscode-kubernetes.minikube-path-windows": "C:\\Users\\ADMIN\\.vs-kubernetes\\tools\\minikube\\windows-amd64\\minikube.exe",
+        "vscode-kubernetes.kubectl-path-windows": "C:\\Users\\ADMIN\\.vs-kubernetes\\tools\\kubectl\\kubectl.exe"
+    },
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -261,7 +270,6 @@
     },
     "explorer.confirmDelete": false,
     "editor.wordWrap": "on",
-    "editor.glyphMargin": false,
     "editor.fontFamily": "'Fira Code', 'monospace', monospace",
     "editor.fontWeight": "440",
     "editor.fontLigatures": true,
@@ -275,7 +283,7 @@
         "editor.insertSpaces": true
     },
     "code-runner.executorMap": {
-        "dart": "dart --enable-asserts",
+        "dart": "/home/vtzy137/Documents/flutter/flutter/bin//dart --enable-asserts",
         "csharp": "cd $dir && dotnet run $fileName"
     },
     "code-runner.runInTerminal": true,
@@ -349,7 +357,6 @@
             }
         ]
     },
-    "chat.viewSessions.orientation": "stacked",
     "antigravity.skipPermissions": true,
     "aga.autoAccept": false,
     "workbench.activityBar.compact": true,
@@ -374,6 +381,13 @@
     },
     "editor.codeActionsOnSave": {
         "source.organizeImports": "always"
-    }
+    },
+    "editor.glyphMargin": false,
+    "chat.viewSessions.orientation": "stacked",
+    "claudeCode.preferredLocation": "panel",
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "chat.disableAIFeatures": true,
+    "EIDE.Repository.UseProxy": false,
 }
-    

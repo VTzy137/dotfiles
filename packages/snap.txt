@@ -1,0 +1,2 @@
+# Installed by the "apps" module. "name [snap flags]" per line, # for comments.
+discord

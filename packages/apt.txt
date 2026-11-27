@@ -1,0 +1,19 @@
+# Installed by the "base" module. One package per line, # for comments.
+git
+git-lfs
+curl
+wget
+unzip
+build-essential
+libx11-dev       # was in installcli.sh (X11 / input tooling builds)
+libxtst-dev
+ripgrep
+fd-find
+bat
+fzf
+git-delta        # pager in .gitconfig
+python3-pygments # used by .lessfilter
+htop
+fastfetch
+xclip
+wl-clipboard

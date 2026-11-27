@@ -1,0 +1,46 @@
+{
+	"name": "Vimium C",
+	"@time": "11/25/2026, 11:16:16 PM",
+	"time": 1795623376109,
+	"environment": {
+		"extension": "2.13.3",
+		"platform": "linux",
+		"firefox": 154
+	},
+	"exclusionRules": [
+		{
+			"passKeys": "+ , , , , , , , , , - < > N c f j k l ",
+			"pattern": ":https://www.youtube.com/"
+		},
+		{
+			"passKeys": "* ",
+			"pattern": ":https://learngitbranching.js.org/"
+		}
+	],
+	"hideHud": true,
+	"keyLayout": 18,
+	"keyMappings": [
+		"#!no-check",
+		"# Insert your preferred key mappings here.",
+		"",
+		"map <a-k> previousTab",
+		"map <a-j> nextTab",
+		"map <a-h> goBack",
+		"map <a-l> goForward",
+		"map <a-w> removeTab",
+		"map K moveTabLeft",
+		"map J moveTabRight",
+		"map D scrollFullPageDown",
+		"map U scrollFullPageUp",
+		"map a autoOpen",
+		"map qq removeTab",
+		"map f LinkHints.activate",
+		"map F LinkHints.activateSelect",
+		"unmap <f8>",
+		""
+	],
+	"keyupTime": 80,
+	"smoothScroll": false,
+	"vimSync": true,
+	"ignoreCapsLock": 2
+}

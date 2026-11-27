@@ -5,6 +5,17 @@
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
 
+# Every terminal window runs inside tmux. Reuses a session nobody is looking at,
+# else starts a new one, so two windows never mirror each other. Closing tmux
+# closes the window. Skipped in editor terminals (VS Code/Cursor/Antigravity,
+# JetBrains), over SSH, and when already in tmux. One-off plain shell: NO_TMUX=1 zsh
+if command -v tmux > /dev/null && [[ -o interactive && -z "$TMUX" && -z "$NO_TMUX" \
+    && -z "$SSH_CONNECTION" && "$TERM_PROGRAM" != vscode \
+    && "$TERMINAL_EMULATOR" != JetBrains-JediTerm ]]; then
+  _free="$(tmux list-sessions -F '#{session_attached} #{session_name}' 2> /dev/null | awk '$1 == 0 { print $2; exit }')"
+  if [[ -n "$_free" ]]; then exec tmux attach-session -t "$_free"; else exec tmux new-session; fi
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -165,3 +176,8 @@ fi
 alias zshrc='nvim ~/.zshrc'
 [ -f /opt/ros/lyrical/setup.zsh ] && source /opt/ros/lyrical/setup.zsh
 
+# installfile <file>: install a .deb / .tar.* / .zip / .AppImage (see linux/installfile.sh)
+alias installfile="${${:-$HOME/.zshrc}:A:h}/linux/installfile.sh"
+
+# Added by Antigravity CLI installer
+export PATH="/home/vtzy/.local/bin:$PATH"

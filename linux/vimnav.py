@@ -59,6 +59,11 @@ class VimNav:
         self.keyboards = {}     # fd -> (device, virtual copy it is passed through to)
         self.leds = {}          # virtual copy fd -> device, to light Caps Lock etc. on the real one
         self.mice = {}          # fd -> device, only watched for clicks
+        # Held h/j/k/l/d/u repeat on our own timer at the desktop's rate (Settings > Keyboard >
+        # Repeat Keys): the kernel's repeat is slower (laptop keyboards repeat in hardware, ~30/s).
+        self.repeat = (0.5, 0.033)  # (delay, interval) in seconds, or None when repeat is off
+        self.rep_key = None         # key being repeated
+        self.rep_next = 0.0         # when it fires next (time.monotonic)
         # Absolute pointer, like a VM's USB tablet: the compositor maps 0..ABS_MAX to the screen.
         self.pointer = UInput({
             e.EV_KEY: [e.BTN_LEFT, e.BTN_RIGHT, e.BTN_MIDDLE],
@@ -69,6 +74,7 @@ class VimNav:
 
     # Grab new keyboards and watch new mice; called at start and every few seconds for hotplug.
     def scan(self):
+        self.read_repeat()
         known = {d.path for d, _ in self.keyboards.values()} | {d.path for d in self.mice.values()}
         for path in evdev.list_devices():
             if path in known:
@@ -95,6 +101,7 @@ class VimNav:
                 pass
 
     def drop(self, fd):
+        self.rep_key = None
         if fd in self.keyboards:
             dev, ui = self.keyboards.pop(fd)
             self.leds.pop(ui.fd, None)
@@ -107,7 +114,10 @@ class VimNav:
         self.scan()
         last_scan = time.monotonic()
         while True:
-            ready, _, _ = select.select([*self.keyboards, *self.mice, *self.leds], [], [], 2)
+            timeout = 2
+            if self.rep_key is not None:
+                timeout = max(0, min(timeout, self.rep_next - time.monotonic()))
+            ready, _, _ = select.select([*self.keyboards, *self.mice, *self.leds], [], [], timeout)
             for fd in ready:
                 if fd in self.leds:
                     self.forward_leds(fd)
@@ -123,6 +133,7 @@ class VimNav:
                         self.set_normal(False)
                     if fd in self.keyboards:
                         self.on_key_event(self.keyboards[fd][1], ev)
+            self.tick_repeat()
             if time.monotonic() - last_scan > 2:
                 self.scan()
                 last_scan = time.monotonic()
@@ -157,15 +168,39 @@ class VimNav:
         if code in self.swallowed:
             if value == 0:
                 self.swallowed.discard(code)
-            elif code in MOVES or code in SCROLLS:
-                self.act(code)  # held h/j/k/l/d/u keep going; held i/o/Esc/F1 act once
-            return True
+                if code == self.rep_key:
+                    self.rep_key = None
+            return True  # kernel repeats ignored: held h/j/k/l/d/u repeat via tick_repeat
         if value != 1:
             return False
         taken = self.act(code)
         if taken:
             self.swallowed.add(code)
+            if (code in MOVES or code in SCROLLS) and self.repeat:
+                self.rep_key, self.rep_next = code, time.monotonic() + self.repeat[0]
         return taken
+
+    # Fire the held h/j/k/l/d/u key when its time comes; stops if it no longer acts (mode changed).
+    def tick_repeat(self):
+        if self.rep_key is None or time.monotonic() < self.rep_next:
+            return
+        if not self.repeat or not self.act(self.rep_key):
+            self.rep_key = None
+            return
+        self.rep_next += self.repeat[1]
+        if self.rep_next < time.monotonic():  # fell behind (busy): don't burst to catch up
+            self.rep_next = time.monotonic() + self.repeat[1]
+
+    # GNOME's key repeat setting; on other desktops keep the default above.
+    def read_repeat(self):
+        try:
+            out = subprocess.run(["gsettings", "list-recursively", "org.gnome.desktop.peripherals.keyboard"],
+                                 capture_output=True, text=True, timeout=2).stdout
+            keys = {f[1]: f[-1] for f in (line.split() for line in out.splitlines()) if len(f) >= 3}
+            on, delay, interval = keys["repeat"], int(keys["delay"]), int(keys["repeat-interval"])
+        except (OSError, subprocess.SubprocessError, KeyError, ValueError):
+            return
+        self.repeat = (delay / 1000, interval / 1000) if on == "true" else None
 
     def act(self, code):
         if code == e.KEY_F1 and self.held & CTRLS:

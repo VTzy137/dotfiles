@@ -126,3 +126,7 @@ export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 
 
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/vtzy/.local/bin:$PATH"

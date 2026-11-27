@@ -1,0 +1,6 @@
+{
+  "uuid": "dock-minimize@dotfiles",
+  "name": "Dock: minimize focused app",
+  "description": "Ubuntu Dock add-on (dotfiles). With the dock's click action set to cycle-windows, Super+N or a click on an app that is focused and has a single window minimizes it; apps with several windows keep cycling.",
+  "shell-version": ["45", "46", "47", "48", "49", "50"]
+}
